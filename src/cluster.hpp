@@ -45,6 +45,12 @@ public:
     //Clears the row index set of the cluster, call it before every iteration of the clustering algorithm, except for the first.
     void ResetIndices();
 
+    //Get the indices of rows in the cluster
+    inline std::set<size_t>& GetIndicesSet()
+    {
+        return m_Indices;
+    }
+
     //Destructor
     ~Cluster();
 

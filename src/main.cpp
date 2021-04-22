@@ -28,14 +28,26 @@ int main()
     });
 
     //Perform k fold 
-    auto iris_split = kfoldValidation(3, iris);
-    auto mall_cust_split = kfoldValidation(3, mall_cust);
+    int num_folds = 4;
+    auto iris_split = kfoldValidation(num_folds, iris);
+    auto mall_cust_split = kfoldValidation(num_folds, mall_cust);
 
     int maxIterations;
     printf("Enter the maximum number of iterations: ");
     scanf("%d", &maxIterations);
 
-    auto clustersArray = k_means_clustering(3, mall_cust, mall_cust_split[1], 0, DistanceType::Euclid, 4, maxIterations);
+    int k = 3; //Number of clusters
+    for(int fold_val = 0; fold_val < num_folds; fold_val++)
+    {   
+        printf("\n=============================Fold : %d=============================\n", fold_val + 1);
+        auto clustersArray = k_means_clustering(k, mall_cust, mall_cust_split[1], fold_val, DistanceType::Manhattan, 4, maxIterations);
+        for(int cluster = 0; cluster < k; cluster++)
+        {
+            std::set<size_t> indices = clustersArray[cluster].GetIndicesSet();
+            for(size_t index : indices)
+                std::cout<<mall_cust[index]<<std::endl;
+        }
+    }
 
     //Release memory of k fold validation results
     ReleaseResultMem(iris_split, 3);
