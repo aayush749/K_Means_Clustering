@@ -10,14 +10,24 @@ enum class DistanceType
 
 //This would run its utility function until the result achieved in two consective iterations come out to be same
 /*
-It takes in:-
+Input:-
 1--> value of k, number of clusters
-2--> the dataset
-3--> could also accept a set of training data indices and also a set of testing data indices (currently takes only training dataset indices) against which to test the trained model
-The trained model would be the final features' centroid for clustering
+2--> a reference to the dataset
+3--> fold index of the fold of dataset -- generated after k fold splitting
+4--> Distance algorithm to be used to calculate the distance (Euclidean or Manhattan distance)
+5--> Target attribute's index in the dataset
+6--> (Optional) The maximum number of iterations of k means clustering to perform.
 
-It could output:- The test accuracy against the trained model
+Output:- Pointer to the array of clusters
 */
-Cluster* k_means_clustering(int k, const DataSet& ds, std::set<int>* split, size_t foldNumber, DistanceType type,  size_t targetAttributeIndex, int max_Iter = -1);
+Cluster* k_means_clustering(
+                            int k, 
+                            const DataSet& ds, 
+                            std::set<int>* split, 
+                            size_t foldNumber, 
+                            DistanceType type,  
+                            size_t targetAttributeIndex, 
+                            int max_Iter = -1
+                            );
 
 #endif
